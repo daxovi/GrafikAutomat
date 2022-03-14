@@ -20,17 +20,18 @@ class Card:
     # set style and size of font
     # that you want in the pdf
 
-    def writeName(self):
+
+    def writeName(self, name):
         self.pdf.y = 24
         self.pdf.set_text_color(r=0, g=0, b=0)
         self.pdf.set_font("OpenSansBold", size=10)
-        self.pdf.cell(90, 4.5, txt="Jmeno", border=0, ln=1, align='C')
+        self.pdf.cell(90, 4.5, txt=name, border=0, ln=1, align='C')
 
-    def writeFunc(self):
+    def writeFunc(self, function):
         self.pdf.y = 28.5
         self.pdf.set_text_color(r=138, g=149, b=156)
         self.pdf.set_font("OpenSansLight", size=8)
-        self.pdf.cell(90, 4.5, txt="Funkce", border=0, ln=2, align='C')
+        self.pdf.cell(90, 4.5, txt=function, border=0, ln=2, align='C')
 
     def loadFonts(self):
         self.pdf.add_font('OpenSans', '', 'OpenSans-Regular.ttf', uni=True)
@@ -55,19 +56,22 @@ class Card:
         self.pdf.x = offset + 7.5
         self.pdf.set_font("OpenSans", size=8)
         self.pdf.set_text_color(r=255, g=255, b=255)
+        print(len(line1))
+        if len(line1) > 20 or len(line2) > 20:
+            self.pdf.set_font("OpenSans", size=7)
         print(line1 + "\n" + line2)
         self.pdf.multi_cell(width, 3, txt=line1 + "\n" + line2, border=0, align='C')
 
-    def printCard(self):
+    def printCard(self, name, function, phone, mobile, email):
         self.loadFonts()
-        self.writeName()
-        self.writeFunc()
+        self.writeName(name)
+        self.writeFunc(function)
         self.buildBackground()
-        self.writeBlock(0, 31.5, "Ahoj", "Dajo")
-        self.writeBlock(31.5, 27, "Ahoj", "Druhy")
-        self.writeBlock(58.5, 31.5, "Ahoj", "Treti")
-        self.pdf.output("GFG.pdf")
+        self.writeBlock(0, 31.5, "I. P. Pavlova 185/6", "779 00 Olomouc")
+        self.writeBlock(31.5, 27, "(+420) " + phone, "(+420) " + mobile)
+        self.writeBlock(58.5, 31.5, email, "www.fnol.cz")
+        self.pdf.output(name + ".pdf")
 
 card = Card()
 #card.writeBlock(0, 31.5, "Ahoj", "Svete")
-card.printCard()
+card.printCard("Dalibor Janeček", "grafik", "588 444 888", "734 424 368", "dalibor.janecek@fnol.cz")
